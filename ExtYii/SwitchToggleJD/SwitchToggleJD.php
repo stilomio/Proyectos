@@ -15,18 +15,34 @@ class SwitchToggleJD extends CWidget {
      */
 
     public $state = FALSE;
-    public $name = 'active';
-    public $id = 'activeID';
-    public $model;
+    public $id = NULL;
+    public $model = NULL;
     public $attribute;
 
     public function init() {
+
+        if ($this->id == NULL) {
+            $this->id = $this->attribute;
+        }
+
         self::registerFile();
         echo self::Labels();
     }
 
+    /*
+     * Function que organiza y genera el CheckBox con los Atributos correspondientes
+     */
+
     public function LabelCheckBox() {
-        return CHtml::activeCheckBox($this->model, $this->attribute, array('class' => 'onoffswitch-checkbox', 'id' => $this->id));
+
+        if ($this->model != NULL) {
+            $check = CHtml::activeCheckBox($this->model, $this->attribute, array('class' => 'onoffswitch-checkbox', 'id' => $this->id));
+        } else {
+
+            $check = CHtml::checkBox($this->attribute, $this->state, array('class' => 'onoffswitch-checkbox', 'id' => $this->id));
+        }
+
+        return $check;
     }
 
     private function Labels() {
